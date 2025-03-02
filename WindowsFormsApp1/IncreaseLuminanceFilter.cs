@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class IncreaseLuminanceFilter : Filter
+    class IncreaseLuminanceFilter : Filters
     {
         private int step;
         public IncreaseLuminanceFilter(int step)

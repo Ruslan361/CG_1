@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class GrayScaleFilter: Filter
+    class GrayScaleFilter: Filters
     {
         protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
         {

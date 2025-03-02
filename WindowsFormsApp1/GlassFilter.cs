@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class GlassFilter: Filter
+    class GlassFilter: Filters
     {
         protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
         {

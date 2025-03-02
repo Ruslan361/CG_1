@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class SepiaFilter: Filter
+    class SepiaFilter: Filters
     {
         private int k;
         public SepiaFilter(int k)

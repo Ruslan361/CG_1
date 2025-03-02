@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class WaweFilter : Filter
+    class WaweFilter : Filters
     {
         //private float k;
         //public WaweFilter(float k)
