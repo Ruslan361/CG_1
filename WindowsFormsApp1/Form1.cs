@@ -141,5 +141,68 @@ namespace WindowsFormsApp1
             LinearExtension linearExtension = new LinearExtension();
             backgroundWorker.RunWorkerAsync(linearExtension);
         }
+
+        private void medianFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MedianBlur linearExtension = new MedianBlur(10);
+            backgroundWorker.RunWorkerAsync(linearExtension);
+        }
+
+        private void grayWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GrayWorld filter = new GrayWorld();
+            backgroundWorker.RunWorkerAsync(filter);
+        }
+
+        private void расширениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool[,] mask = { { false, true, false },
+                             { true, true, true },
+                             { false, true, false } };
+            Dilatation filter = new Dilatation(mask);
+            backgroundWorker.RunWorkerAsync(filter);
+        }
+
+        private void erosionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool[,] mask = { { false, true, false },
+                             { true, true, true },
+                             { false, true, false } };
+            Erosion filter = new Erosion(mask);
+            backgroundWorker.RunWorkerAsync(filter);
+        }
+
+        private void openingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool[,] mask = { { false, true, false },
+                             { true, true, true },
+                             { false, true, false } };
+            Opening filter = new Opening(mask, mask);
+            backgroundWorker.RunWorkerAsync(filter);
+        }
+
+        private void закрытиеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool[,] mask = { { false, true, false },
+                             { true, true, true },
+                             { false, true, false } };
+            Closing filter = new Closing(mask, mask);
+            backgroundWorker.RunWorkerAsync(filter);
+        }
+
+        private void gradToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool[,] mask = { { false, true, false },
+                             { true, true, true },
+                             { false, true, false } };
+            Grad filter = new Grad(mask);
+            backgroundWorker.RunWorkerAsync(filter);
+        }
+
+        private void perfectReflectorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PerfectReflector filter = new PerfectReflector();
+            backgroundWorker.RunWorkerAsync(filter);
+        }
     }
 }

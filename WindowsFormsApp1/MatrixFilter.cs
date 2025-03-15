@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class MatrixFilter : Filter
+    class MatrixFilter : Filters
     {
         protected float[,] kernel = null;
         protected MatrixFilter () { }

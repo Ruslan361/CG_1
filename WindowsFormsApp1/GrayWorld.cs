@@ -8,23 +8,24 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class LinearExtension: Action
+    class GrayWorld: Action
     {
-        protected virtual Color calculateNewPixelColor(Bitmap sourceImage, int x, int y, int [] min, int[] max )
+        protected Color calculateNewPixelColor(Bitmap sourceImage, int x, int y, float[] mean, float avg)
         {
             Color source = sourceImage.GetPixel(x, y);
             int[] sourceChannels = { source.R, source.G, source.B };
             int[] result = new int[3];
             for (int i = 0; i < sourceChannels.Length; i++)
             {
-                result[i] = Clamp((int)((float)(sourceChannels[i] - min[i]) * (255) / (max[i] - min[i])), 0, 255);
+                result[i] = Clamp((int)((float)(sourceChannels[i]) * (avg) / (mean[i])), 0, 255);
             }
             return Color.FromArgb(result[0], result[1], result[2]);
         }
-        private static (int [], int[]) calculateMinAndMax(Bitmap bitmap)
+        private static float[] calculateMean(Bitmap bitmap)
         {
-            int [] min = new int[] { 255, 255, 255 };
-            int [] max = new int[] { 0, 0, 0 };
+            float[] mean = new float[] { 0, 0, 0 };
+            float amountOfpixels = bitmap.Width * bitmap.Height;
+            float coeff = 1 / amountOfpixels;
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = 0; y < bitmap.Height; y++)
@@ -33,18 +34,16 @@ namespace WindowsFormsApp1
                     int[] colors = new int[] { current.R, current.G, current.B };
                     for (int i = 0; i < colors.Length; i++)
                     {
-                        min[i] = colors[i] < min[i] ? colors[i] : min[i];
-                        max[i] = colors[i] > max[i] ? colors[i] : max[i];
+                        mean[i] += coeff * colors[i];
                     }
                 }
             }
-            return (min, max);
+            return mean;
         }
         public override Bitmap processImage(Bitmap sourceImage, BackgroundWorker worker)
         {
-            int[] min;
-            int[] max;
-            (min, max) = calculateMinAndMax(sourceImage);
+            float[] mean = calculateMean(sourceImage);
+            float avg = (mean[0] + mean[1] + mean[2]) / 3;
             Bitmap resultImage = new Bitmap(sourceImage.Width, sourceImage.Height);
             for (int i = 0; i < sourceImage.Width; i++)
             {
@@ -53,11 +52,10 @@ namespace WindowsFormsApp1
                     return null;
                 for (int j = 0; j < sourceImage.Height; j++)
                 {
-                    resultImage.SetPixel(i, j, calculateNewPixelColor(sourceImage, i, j, min, max));
+                    resultImage.SetPixel(i, j, calculateNewPixelColor(sourceImage, i, j, mean, avg));
                 }
             }
             return resultImage;
         }
     }
-
 }
