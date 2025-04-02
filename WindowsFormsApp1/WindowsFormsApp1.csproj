@@ -49,6 +49,13 @@
     <Compile Include="Action.cs" />
     <Compile Include="BlurFilter.cs" />
     <Compile Include="Closing.cs" />
+    <Compile Include="ColorPickerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorPickerForm.Designer.cs">
+      <DependentUpon>ColorPickerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CorrectionWithReferenceColor.cs" />
     <Compile Include="Dilatation.cs" />
     <Compile Include="Erosion.cs" />
     <Compile Include="Filters.cs" />
@@ -79,6 +86,9 @@
     <Compile Include="SobelFilter.cs" />
     <Compile Include="trash.cs" />
     <Compile Include="WaweFilter.cs" />
+    <EmbeddedResource Include="ColorPickerForm.resx">
+      <DependentUpon>ColorPickerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

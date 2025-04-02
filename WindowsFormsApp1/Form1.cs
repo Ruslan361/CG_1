@@ -14,9 +14,13 @@ namespace WindowsFormsApp1
     public partial class Form1: Form
     {
         private Bitmap selectedImage;
+        bool isActiveSelectColor;
+        Color selectedColor;
+        CorrectionWithReferenceColor deferredAction;
         public Form1()
         {
             InitializeComponent();
+            isActiveSelectColor = false;
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -204,5 +208,90 @@ namespace WindowsFormsApp1
             PerfectReflector filter = new PerfectReflector();
             backgroundWorker.RunWorkerAsync(filter);
         }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void correctionWithReferenceСolorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    isActiveSelectColor = true;
+                    CorrectionWithReferenceColor correction = new CorrectionWithReferenceColor();
+                    correction.DistColor = colorDialog.Color;
+                    deferredAction = correction;
+                }
+            }
+        }
+
+        private void correctionWithReferenceСolorToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void pictureBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!isActiveSelectColor) return;
+            if (pictureBox.Image == null) return;
+
+            isActiveSelectColor = false;
+
+            // Размеры pictureBox и изображения
+            int pbWidth = pictureBox.ClientSize.Width;
+            int pbHeight = pictureBox.ClientSize.Height;
+            int imgWidth = selectedImage.Width;
+            int imgHeight = selectedImage.Height;
+
+            // Вычисление масштабирования изображения
+            float scaleX = (float)pbWidth / imgWidth;
+            float scaleY = (float)pbHeight / imgHeight;
+            float scale = Math.Min(scaleX, scaleY);
+
+            // Вычисление размеров отображаемого изображения
+            int displayWidth = (int)(imgWidth * scale);
+            int displayHeight = (int)(imgHeight * scale);
+
+            // Определение отступов (если изображение не заполняет весь pictureBox)
+            int offsetX = (pbWidth - displayWidth) / 2;
+            int offsetY = (pbHeight - displayHeight) / 2;
+
+            // Преобразование координат клика
+            if (e.X >= offsetX && e.X < offsetX + displayWidth &&
+                e.Y >= offsetY && e.Y < offsetY + displayHeight)
+            {
+                int imgX = (int)((e.X - offsetX) / scale);
+                int imgY = (int)((e.Y - offsetY) / scale);
+
+                // Получаем цвет пикселя
+                Color pixelColor = selectedImage.GetPixel(imgX, imgY);
+                using (ColorDialog colorDialog = new ColorDialog())
+                {
+                    colorDialog.Color = pixelColor;
+                    if (colorDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        isActiveSelectColor = false;
+                        deferredAction.SourceColor = colorDialog.Color;
+                        backgroundWorker.RunWorkerAsync(deferredAction);
+                    }
+                }
+
+                //MessageBox.Show($"Цвет пикселя: {pixelColor}");
+            }
+        }
     }
 }
+/*
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
