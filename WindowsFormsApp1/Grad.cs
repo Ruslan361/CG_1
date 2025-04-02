@@ -33,9 +33,9 @@ namespace WindowsFormsApp1
                 {
                     Color leftPixel = left.GetPixel(x, y);
                     Color rightPixel = right.GetPixel(x, y);
-                    Color difference = Color.FromArgb(leftPixel.R - rightPixel.R,
-                                                      leftPixel.G - rightPixel.G,
-                                                      leftPixel.B - rightPixel.B);
+                    Color difference = Color.FromArgb(Clamp(leftPixel.R - rightPixel.R, 0, 255),
+                                                      Clamp(leftPixel.G - rightPixel.G, 0, 255),
+                                                      Clamp(leftPixel.B - rightPixel.B, 0, 255));
                     result.SetPixel(x, y, difference);
                 }
             }

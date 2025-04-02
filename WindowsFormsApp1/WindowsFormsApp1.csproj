@@ -49,6 +49,7 @@
     <Compile Include="Action.cs" />
     <Compile Include="BlurFilter.cs" />
     <Compile Include="Closing.cs" />
+    <Compile Include="CorrectionWithReferenceColor.cs" />
     <Compile Include="Dilatation.cs" />
     <Compile Include="Erosion.cs" />
     <Compile Include="Filters.cs" />
